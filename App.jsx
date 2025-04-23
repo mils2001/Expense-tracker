@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import ExpenseForm from "./components/ExpenseForm";
-import ExpenseTable from "./components/ExpenseTable";
-import SearchBar from "./components/SearchBar";
+import ExpenseForm from "./components/Expenseform";
+import ExpenseTable from "./components/Expensetable";
+import SearchBar from "./components/Searchbar";
 
 const App = () => {
   const [expenses, setExpenses] = useState([
-    { id: 1, description: "Groceries", category: "Food", amount: 50 },
+    { id: 1, description: "Groceries", category: "Food", amount: 51 },
     { id: 2, description: "Uber Ride", category: "Transport", amount: 20 },
   ]);
 
