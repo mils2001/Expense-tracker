@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import ExpenseForm from "./components/Expenseform";
 
@@ -11,26 +11,61 @@ import './App.css'; // Importing the CSS file for styling
 
 const App = () => {
 
-  const [expenses, setExpenses] = useState([
-
-    { id: 1, description: "Groceries", category: "Food", amount: 51 },
-
-    { id: 2, description: "Uber Ride", category: "Transport", amount: 20 },
-
-  ]);
-
+  const [expenses, setExpenses] = useState([]);
 
   const [searchTerm, setSearchTerm] = useState("");
 
 
-  const handleAddExpense = (expense) => {
+  // Fetch data from the json-server
 
-    setExpenses([...expenses, { ...expense, id: Date.now() }]);
+  useEffect(() => {
+
+    const fetchData = async () => {
+
+      const response = await fetch("http://localhost:3000/expenses");
+
+      const data = await response.json();
+
+      setExpenses(data);
+
+    };
+
+
+    fetchData();
+
+  }, []);
+
+
+  const handleAddExpense = async (expense) => {
+
+    const response = await fetch("http://localhost:3000/expenses", {
+
+      method: "POST",
+
+      headers: {
+
+        "Content-Type": "application/json",
+
+      },
+
+      body: JSON.stringify({ ...expense, id: Date.now() }),
+
+    });
+
+    const newExpense = await response.json();
+
+    setExpenses([...expenses, newExpense]);
 
   };
 
 
-  const handleDeleteExpense = (id) => {
+  const handleDeleteExpense = async (id) => {
+
+    await fetch(`http://localhost:3000/expenses/${id}`, {
+
+      method: "DELETE",
+
+    });
 
     setExpenses(expenses.filter((exp) => exp.id !== id));
 
