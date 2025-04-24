@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 
-import ExpenseForm from "./components/Expenseform";
+import ExpenseForm from "./components/ExpenseForm"; 
 
-import ExpenseTable from "./components/Expensetable";
+import ExpenseTable from "./components/ExpenseTable"; 
 
-import SearchBar from "./components/Searchbar";
+import SearchBar from "./components/SearchBar"; 
 
-import './App.css'; // Importing the CSS file for styling
+import './App.css'; 
 
 
 const App = () => {
@@ -16,7 +16,7 @@ const App = () => {
   const [searchTerm, setSearchTerm] = useState("");
 
 
-  // Fetch data from the json-server
+  // Fetch data from the JSON server
 
   useEffect(() => {
 
@@ -48,13 +48,14 @@ const App = () => {
 
       },
 
-      body: JSON.stringify({ ...expense, id: Date.now() }),
+      body: JSON.stringify(expense),
 
     });
 
+
     const newExpense = await response.json();
 
-    setExpenses([...expenses, newExpense]);
+    setExpenses((prevExpenses) => [...prevExpenses, newExpense]);
 
   };
 
@@ -66,6 +67,7 @@ const App = () => {
       method: "DELETE",
 
     });
+
 
     setExpenses(expenses.filter((exp) => exp.id !== id));
 

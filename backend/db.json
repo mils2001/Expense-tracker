@@ -1,8 +1,16 @@
 {
-    "expenses": [
-      { "id": 1, "description": "Groceries", "category": "Food", "amount": 51 },
-      { "id": 2, "description": "Uber Ride", "category": "Transport", "amount": 20 },
-      { "id": 3, "description": "Rent", "category": "Housing", "amount": 1200 },
-      { "id": 4, "description": "Utilities", "category": "Housing", "amount": 150 }
-    ]
-  }
+  "expenses": [
+    {
+      "id": "1",
+      "description": "Groceries",
+      "category": "Food",
+      "amount": 51
+    },
+    {
+      "id": "2",
+      "description": "Uber Ride",
+      "category": "Transport",
+      "amount": 20
+    }
+  ]
+}
