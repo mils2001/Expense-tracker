@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 
-import ExpenseForm from "./components/ExpenseForm"; 
+import ExpenseForm from "./components/ExpenseForm";
 
-import ExpenseTable from "./components/ExpenseTable"; 
+import ExpenseTable from "./components/ExpenseTable";
 
-import SearchBar from "./components/SearchBar"; 
+import SearchBar from "./components/SearchBar";
 
-import './App.css'; 
+import './App.css';
 
 
 const App = () => {
@@ -22,65 +22,86 @@ const App = () => {
 
     const fetchData = async () => {
 
-      const response = await fetch("http://localhost:3000/expenses");
+      try {
 
-      const data = await response.json();
+        const response = await fetch("http://localhost:3000/expenses");
 
-      setExpenses(data);
+        const data = await response.json();
+
+        setExpenses(data);
+
+      } catch (error) {
+
+        console.log("Error fetching expenses:", error);
+
+      }
 
     };
-
 
     fetchData();
 
   }, []);
 
 
+  // Add a new expense
+
   const handleAddExpense = async (expense) => {
 
-    const response = await fetch("http://localhost:3000/expenses", {
+    try {
 
-      method: "POST",
+      const response = await fetch("http://localhost:3000/expenses", {
 
-      headers: {
+        method: "POST",
 
-        "Content-Type": "application/json",
+        headers: {
 
-      },
+          "Content-Type": "application/json",
 
-      body: JSON.stringify(expense),
+        },
 
-    });
+        body: JSON.stringify(expense),
 
+      });
 
-    const newExpense = await response.json();
+      const newExpense = await response.json();
 
-    setExpenses((prevExpenses) => [...prevExpenses, newExpense]);
+      setExpenses((prevExpenses) => [...prevExpenses, newExpense]);
+
+    } catch (error) {
+
+      console.log("Error adding expense:", error);
+
+    }
 
   };
 
+
+  // Delete an existing expense
 
   const handleDeleteExpense = async (id) => {
 
-    await fetch(`http://localhost:3000/expenses/${id}`, {
+    try {
 
-      method: "DELETE",
+      await fetch(`http://localhost:3000/expenses/${id}`, { method: "DELETE" });
 
-    });
+      setExpenses((prevExpenses) => prevExpenses.filter((exp) => exp.id !== id));
 
+    } catch (error) {
 
-    setExpenses(expenses.filter((exp) => exp.id !== id));
+      console.log("Error deleting expense:", error);
+
+    }
 
   };
 
 
-  const filteredExpenses = expenses.filter(
+  // Filter expenses based on the search term
 
-    (exp) =>
+  const filteredExpenses = expenses.filter((exp) =>
 
-      exp.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    exp.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
 
-      exp.category.toLowerCase().includes(searchTerm.toLowerCase())
+    exp.category.toLowerCase().includes(searchTerm.toLowerCase())
 
   );
 
